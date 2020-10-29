@@ -55,4 +55,4 @@ python main.py
 
 - [genanki: A Library for Generating Anki Decks](https://github.com/kerrickstaley/genanki)
 
-- [Python Markdown: Python implementation of John Gruber's [Markdown](https://daringfireball.net/projects/markdown/).](https://github.com/Python-Markdown/markdown)
+- [Python Markdown: Python implementation of John Gruber's Markdown](https://github.com/Python-Markdown/markdown)
