@@ -1,0 +1,26 @@
+<script>
+    function expandTags() {
+        document.getElementById('hidden-tags').style.display = 'none';
+        const tags = '{{Tags}}'.split(';');
+        const tagSlugs = '{{TagSlugs}}'.split(';');
+
+        const N = tags.length;
+        for (let i = 0; i < N; i++) {
+            const tag = document.createElement('a');
+            tag.setAttribute('class', 'btn tag-btn');
+            tag.setAttribute('href', 'https://leetcode.com/tag/' + tagSlugs[i] + '/');
+            tag.innerHTML = tags[i];
+            document.getElementById('tags').appendChild(tag);
+        }
+    }
+</script>
+
+<a class="btn title-btn {{Difficulty}}" href="https://leetcode.com/problems/{{TitleSlug}}/">{{ID}}. {{Title}}</a>
+{{#Tags}}
+<div id="tags"></div>
+<a class="btn tag-btn" href="#" onclick="expandTags()" id="hidden-tags">Tags</a>
+{{/Tags}}
+
+{{Description}}
+
+<hr id=answer>

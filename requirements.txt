@@ -3,3 +3,4 @@ selenium~=3.141.0
 peewee~=3.13.3
 genanki~=0.8.1
 markdown~=3.3.3
+python-markdown-math
