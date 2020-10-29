@@ -1,0 +1,51 @@
+.card {
+    font-size: 14px;
+    font-family: Helvetica, Arial, "Chinese Quote", "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", "Noto Sans", sans-serif;
+    color: black;
+    background-color: white;
+}
+
+.btn {
+    display: inline-block;
+    border-radius: 1020px;
+    text-decoration: none;
+}
+
+.title-btn {
+    padding: .2em .6em .3em;
+    margin-bottom: 3px;
+    color: white;
+    font-weight: 700;
+}
+
+.tag-btn {
+    padding: 1px 5px;
+    color: #5a5a5a;
+    font-size: 13px;
+    font-weight: 500;
+    margin-right: 3px;
+    border: 1px solid #ddd;
+}
+
+.Easy {
+    background-color: #5cb85c;
+}
+
+.Medium {
+    background-color: #f0ad4e;
+}
+
+.Hard {
+    background-color: #d9534f;
+}
+
+pre {
+    padding: 6px 13px;
+    font-size: 13px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'Courier New', 'Source Code Pro', monospace;
+    overflow: auto;
+    tab-size: 4;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}

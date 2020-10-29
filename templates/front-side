@@ -1,0 +1,9 @@
+<a class="btn title-btn {{Difficulty}}" href="https://leetcode.com/problems/{{TitleSlug}}/">{{ID}}. {{Title}}</a>
+{{#Tags}}
+<div id="tags"></div>
+<a class="btn tag-btn" href="#" onclick="this.style.display='none';'{{Tags}}'.split(';').forEach(function(tagSlug){var tag=document.createElement('a');tag.setAttribute('class','btn tag-btn');tag.setAttribute('href','https://leetcode.com/tag/'+tagSlug+'/');tag.innerHTML=tagSlug;document.getElementById('tags').appendChild(tag);});return false;">Tags</a>
+{{/Tags}}
+
+{{Description}}
+
+<hr id=answer>
