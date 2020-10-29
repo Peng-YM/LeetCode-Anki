@@ -37,7 +37,7 @@ css = ./templates/style.css
 output = ./data/LeetCode.apkg
 ```
 
-运行爬虫并输出Anki卡组到`./data/LeetCode.apkg` （由`project.conf`）。
+运行爬虫并输出Anki卡组到`./data/LeetCode.apkg` （由`project.conf`指定）。
 
 ```bash
 python main.py
