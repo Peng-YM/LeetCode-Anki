@@ -21,7 +21,7 @@ def markdown_to_html(content: str):
     )
 
     # also need to load the mathjax and toc extensions
-    return markdown(content, extensions=['mdx_math', 'toc', 'fenced_code'])
+    return markdown(content, extensions=['mdx_math', 'toc', 'fenced_code', 'tables'])
 
 
 def code_to_html(source, language):
@@ -38,7 +38,7 @@ def get_anki_model():
         css = f.read()
 
     anki_model = Model(
-        model_id=random_id(),
+        model_id=1048217874,
         name="LeetCode",
         fields=[
             {"name": "ID"},
@@ -94,7 +94,8 @@ def make_note(problem):
             submissions
         ],
         guid=str(problem.display_id),
-        sort_field=str(problem.display_id)
+        sort_field=str(problem.display_id),
+        tags=[t.slug for t in problem.tags]
     )
     return note
 
