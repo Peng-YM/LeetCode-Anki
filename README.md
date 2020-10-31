@@ -27,7 +27,7 @@ cd LeetCode-Anki
 pip install -r requirements.txt
 ```
 编辑`project.conf`，填入LeetCode的用户名和密码，其他参数可以根据需求自行修改。
-```configure
+```properties
 [User]
 username = YOUR_USER_NAME_HERE
 password = YOUR_PASSWORD_HERE
@@ -37,8 +37,8 @@ path = ./data
 debug = False
 
 [Anki]
-front = ./templates/front-side
-back = ./templates/back-side
+front = ./templates/front-side.html
+back = ./templates/back-side.html
 css = ./templates/style.css
 output = ./data/LeetCode.apkg
 ```
@@ -50,6 +50,14 @@ python main.py
 ```
 
 愉快使用Anki复习做过的题目吧。
+
+## 自定义
+
+如果你不喜欢默认生成的Anki卡片样式，你可以修改`project.conf`里面的以下三个参数，自定义生成的Anki卡片。
+
+- `front`: 卡片正面的格式。
+- `back`: 卡片背面的格式。
+- `css`: 卡片的css样式。
 
 ## LICENSE
 
