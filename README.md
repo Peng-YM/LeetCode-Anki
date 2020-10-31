@@ -18,6 +18,8 @@
 | :------------------------: | :----------------------: |
 | ![front](./demo/front.JPG) | ![back](./demo/back.JPG) |
 
+示例[卡组](https://github.com/Peng-YM/LeetCode-Anki/blob/master/data/LeetCode.apkg?raw=true)
+
 ## 使用
 
 首先Clone仓库并安装Python依赖
