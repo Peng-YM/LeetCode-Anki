@@ -28,7 +28,25 @@ git clone https://github.com/Peng-YM/LeetCode-Anki.git
 cd LeetCode-Anki
 pip install -r requirements.txt
 ```
-编辑`project.conf`，填入LeetCode的用户名和密码，其他参数可以根据需求自行修改。
+
+运行爬虫并输出Anki卡组到`./data/LeetCode.apkg` （由`project.conf`指定）。
+
+```bash
+python main.py
+```
+
+首次运行需要获取cookie，运行`main.py`会打开一个Chrome窗口, 手动填写用户名和密码登陆一次即可。
+
+> ⚠️ 注意：
+> 1. 如果需要重新浏览器登陆，只需要删除目录下的`cookie.dat`即可。
+> 2. 如果浏览器的驱动过期（目前为V86.0），请前往[下载Chrome的Selenium驱动](https://chromedriver.chromium.org/downloads) 并替换`vendor`的旧驱动。
+
+愉快使用Anki复习做过的题目吧。
+
+## 自定义
+
+如果你不喜欢默认生成的Anki卡片样式，你可以修改`project.conf`里面的以下三个参数，自定义生成的Anki卡片。
+
 ```properties
 [DB]
 path = ./data
@@ -40,24 +58,6 @@ back = ./templates/back-side.html
 css = ./templates/style.css
 output = ./data/LeetCode.apkg
 ```
-
-运行爬虫并输出Anki卡组到`./data/LeetCode.apkg` （由`project.conf`指定）。
-
-```bash
-python main.py
-```
-
-首次运行需要获取cookie，运行`main.py`会打开一个Chrome窗口, 手动登陆一次即可。
-
-> ⚠️ 注意：
-> 1. 如果需要重新浏览器登陆，只需要删除目录下的`cookie.dat`即可。
-> 2. 如果浏览器的驱动过期（目前为V86.0），请前往[下载Chrome的Selenium驱动](https://chromedriver.chromium.org/downloads) 并替换`vendor`的旧驱动。
-
-愉快使用Anki复习做过的题目吧。
-
-## 自定义
-
-如果你不喜欢默认生成的Anki卡片样式，你可以修改`project.conf`里面的以下三个参数，自定义生成的Anki卡片。
 
 - `front`: 卡片正面的格式。
 - `back`: 卡片背面的格式。
