@@ -2,14 +2,15 @@ import json
 import os.path
 import pickle
 import re
+from sys import exit
 
 import requests
 from requests.cookies import RequestsCookieJar
 from selenium import webdriver
+from selenium.webdriver.support.ui import WebDriverWait
 
 from database import Problem, ProblemTag, Tag, Submission, create_tables, Solution
 from utils import destructure, random_wait, do, get
-from utils import parser as conf
 
 COOKIE_PATH = "./cookies.dat"
 
@@ -32,35 +33,32 @@ class LeetCodeCrawler:
         )
 
     def login(self):
+        browser_cookies = {}
         if os.path.isfile(COOKIE_PATH):
             with open(COOKIE_PATH, 'rb') as f:
                 browser_cookies = pickle.load(f)
         else:
-            username = conf.get("User", "username")
-            password = conf.get("User", "password")
+            print("😎 Starting browser login..., please fill the login form")
+            browser = webdriver.Chrome(executable_path="./vendor/chromedriver")
             try:
-                # simulate login
-                browser = webdriver.Chrome(executable_path="./vendor/chromedriver")
-                browser.get("https://leetcode.com/accounts/login")
-                random_wait()
-                browser.find_element_by_id("id_login").send_keys(username)
-                random_wait()
-                browser.find_element_by_id("id_password").send_keys(password)
-                random_wait()
-                browser.find_element_by_id("signin_btn").click()
+                # browser login
+                login_url = "https://leetcode.com/accounts/login"
+                browser.get(login_url)
 
-                print("Login Successfully!")
-
+                WebDriverWait(browser, 24 * 60 * 3600).until(
+                    lambda driver: driver.current_url.index("login") < 0
+                )
                 browser_cookies = browser.get_cookies()
                 with open(COOKIE_PATH, 'wb') as f:
                     pickle.dump(browser_cookies, f)
+                print("🎉 Login successfully")
 
             except Exception as e:
-                print(f"Login Failed! {e}")
-                raise e
+                print(f"🤔 Login Failed: {e}, please try again")
+                exit()
+
         cookies = RequestsCookieJar()
         for item in browser_cookies:
-            print(f"SET COOKIE: {item['name']} = {item['value']}")
             cookies.set(item['name'], item['value'])
 
             if item['name'] == 'csrftoken':
@@ -88,10 +86,10 @@ class LeetCodeCrawler:
 
                 # always try to update submission
                 do(self.fetch_submission, args=[slug])
-        print(f"Updated {counter} problems")
+        print(f"🤖 Updated {counter} problems")
 
     def fetch_problem(self, slug, accepted=False):
-        print(f"Fetching problem: https://leetcode.com/problem/{slug}/...")
+        print(f"🤖 Fetching problem: https://leetcode.com/problem/{slug}/...")
         query_params = {
             'operationName': "getQuestionDetail",
             'variables': {'titleSlug': slug},
@@ -145,7 +143,7 @@ class LeetCodeCrawler:
         random_wait(10, 15)
 
     def fetch_solution(self, slug):
-        print(f"Fetching solution for problem: {slug}")
+        print(f"🤖 Fetching solution for problem: {slug}")
         query_params = {
             "operationName": "QuestionNote",
             "variables": {"titleSlug": slug},
@@ -195,7 +193,7 @@ class LeetCodeCrawler:
         random_wait(10, 15)
 
     def fetch_submission(self, slug):
-        print(f"Fetching submission for problem: {slug}")
+        print(f"🤖 Fetching submission for problem: {slug}")
         query_params = {
             'operationName': "Submissions",
             'variables': {"offset": 0, "limit": 20, "lastKey": '', "questionSlug": slug},
@@ -258,4 +256,5 @@ class LeetCodeCrawler:
 if __name__ == '__main__':
     create_tables()
     crawler = LeetCodeCrawler()
+    crawler.login()
     crawler.fetch_accepted_problems()

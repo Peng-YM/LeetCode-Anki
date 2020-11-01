@@ -30,10 +30,6 @@ pip install -r requirements.txt
 ```
 编辑`project.conf`，填入LeetCode的用户名和密码，其他参数可以根据需求自行修改。
 ```properties
-[User]
-username = YOUR_USER_NAME_HERE
-password = YOUR_PASSWORD_HERE
-
 [DB]
 path = ./data
 debug = False
@@ -50,6 +46,12 @@ output = ./data/LeetCode.apkg
 ```bash
 python main.py
 ```
+
+首次运行需要获取cookie，运行`main.py`会打开一个Chrome窗口, 手动登陆一次即可。
+
+> ⚠️ 注意：
+> 1. 如果需要重新浏览器登陆，只需要删除目录下的`cookie.dat`即可。
+> 2. 如果浏览器的驱动过期（目前为V86.0），请前往[下载Chrome的Selenium驱动](https://chromedriver.chromium.org/downloads) 并替换`vendor`的旧驱动。
 
 愉快使用Anki复习做过的题目吧。
 
