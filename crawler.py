@@ -46,7 +46,7 @@ class LeetCodeCrawler:
                 browser.get(login_url)
 
                 WebDriverWait(browser, 24 * 60 * 3600).until(
-                    lambda driver: driver.current_url.index("login") < 0
+                    lambda driver: driver.current_url.find("login") < 0
                 )
                 browser_cookies = browser.get_cookies()
                 with open(COOKIE_PATH, 'wb') as f:
