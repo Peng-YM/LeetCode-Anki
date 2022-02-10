@@ -107,7 +107,7 @@ def render_anki():
 
     anki_deck = Deck(
         deck_id=random_id(),
-        name="LeetCodeEn"
+        name="LeetCodeCN"
     )
 
     for problem in problems:
