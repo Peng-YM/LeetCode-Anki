@@ -13,10 +13,10 @@ def random_id():
 
 
 def markdown_to_html(content: str):
-    # replace the math symbol "$$x$$" to "\(x\)" to make it compatible with mathjax
+    # replace the math symbol "$x$" to "\[$]x\[/$]" to make it compatible with mathjax
     content = re.sub(
-        pattern=r"\$\$(.*?)\$\$",
-        repl=r"\(\1\)",
+        pattern=r"\$(.*?)\$",
+        repl=r"[$]\1[/$]",
         string=content
     )
 
