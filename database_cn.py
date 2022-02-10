@@ -5,17 +5,17 @@ from peewee import *
 
 from utils import parser
 
-if parser.get("DB_EN", "debug") == "True":
+if parser.get("DB_CN", "debug") == "True":
     # logger
     logger = logging.getLogger('peewee')
     logger.addHandler(logging.StreamHandler())
     logger.setLevel(logging.DEBUG)
 
 # connect or create the database
-directory = parser.get("DB_EN", "path")
+directory = parser.get("DB_CN", "path")
 p = pathlib.Path(directory)
 p.mkdir(parents=True, exist_ok=True)
-database = SqliteDatabase(directory + "/LeetCode_en.sqlite")
+database = SqliteDatabase(directory + "/LeetCode_cn.sqlite")
 
 
 # data models

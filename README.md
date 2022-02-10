@@ -35,6 +35,11 @@ pip3 install -r requirements.txt
 python3 main.py
 ```
 
+增加对Leetcode.cn的支持
+```bash
+python3 main_cn.py
+```
+
 首次运行需要获取cookie，运行`main.py`会打开一个Chrome窗口, 手动填写用户名和密码登陆一次即可。
 
 > ⚠️ 注意：

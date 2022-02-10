@@ -4,7 +4,7 @@ import re
 from genanki import Model, Deck, Note, Package
 from markdown import markdown
 
-from database_en import Problem
+from database_cn import Problem
 from utils import parser as conf
 
 
@@ -114,7 +114,7 @@ def render_anki():
         note = make_note(problem)
         anki_deck.add_note(note)
 
-    path = conf.get("Anki_EN", "output")
+    path = conf.get("Anki_CN", "output")
     Package(anki_deck).write_to_file(path)
 
 

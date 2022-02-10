@@ -9,10 +9,10 @@ from requests.cookies import RequestsCookieJar
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 
-from database_en import Problem, ProblemTag, Tag, Submission, create_tables, Solution
+from database_cn import Problem, ProblemTag, Tag, Submission, create_tables, Solution
 from utils import destructure, random_wait, do, get
 
-COOKIE_PATH = "./cookies_en.dat"
+COOKIE_PATH = "./cookies_cn.dat"
 
 
 class LeetCodeCrawler:

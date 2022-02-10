@@ -1,6 +1,6 @@
-from database_en import create_tables
-from crawler_en import LeetCodeCrawler
-from renderer_en import render_anki
+from database_cn import create_tables
+from crawler_cn import LeetCodeCrawler
+from renderer_cn import render_anki
 
 # create database
 create_tables()
