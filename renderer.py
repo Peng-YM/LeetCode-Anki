@@ -75,7 +75,7 @@ def make_note(problem):
 
     codes = []
     for item in problem.submissions:
-        source = item.source.encode().decode("unicode-escape")
+        source = re.sub(r'(\\u[\s\S]{4})',lambda x:x.group(1).encode("utf-8").decode("unicode-escape"),item.source)
         output = code_to_html(source, item.language)
         codes.append(output)
     submissions = "\n".join(codes)
