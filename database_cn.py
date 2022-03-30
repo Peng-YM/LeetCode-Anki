@@ -43,13 +43,13 @@ class Problem(BaseModel):
             )
         )
 
-    @property
-    def solution(self):
-        return (
-            Solution.select().where(
-                Solution.problem == self.id
-            )
-        )
+    # @property
+    # def solution(self):
+    #     return (
+    #         Solution.select().where(
+    #             Solution.problem == self.id
+    #         )
+    #     )
 
 
 class Submission(BaseModel):
@@ -87,15 +87,17 @@ class ProblemTag(BaseModel):
         )
 
 
-class Solution(BaseModel):
-    problem = ForeignKeyField(Problem, primary_key=True)
-    content = TextField()
-    url = CharField()
+# class Solution(BaseModel):
+#     problem = ForeignKeyField(Problem, primary_key=True)
+#     content = TextField()
+#     url = CharField()
 
 
 def create_tables():
     with database:
-        database.create_tables([Problem, Solution, Submission, Tag, ProblemTag])
+        # database.create_tables([Problem, Solution, Submission, Tag, ProblemTag])
+        database.create_tables([Problem, Submission, Tag, ProblemTag])
+
 
 
 if __name__ == '__main__':

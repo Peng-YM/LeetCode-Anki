@@ -1,0 +1,70 @@
+<script>
+    function expandTags() {
+        document.getElementById('hidden-tags').style.display = 'none';
+        const tags = '{{Tags}}'.split(';');
+        const tagSlugs = '{{TagSlugs}}'.split(';');
+
+        const N = tags.length;
+        for (let i = 0; i < N; i++) {
+            const tag = document.createElement('a');
+            tag.setAttribute('class', 'btn tag-btn');
+            tag.setAttribute('href', 'https://leetcode.com/tag/' + tagSlugs[i] + '/');
+            tag.innerHTML = tags[i];
+            document.getElementById('tags').appendChild(tag);
+        }
+    }
+</script>
+<!--Problem Title-->
+<section class="RankEditor"
+         style="margin: 0px auto; text-align: center; width: 100%; opacity: 1; transform: rotateZ(0deg);"
+         data-width="100%" data-opacity="1" data-rotate="0">
+    <section
+            style="color: rgb(228, 130, 16); padding: 3px 10px; margin-bottom: -1em; vertical-align: bottom; font-size: 1.2em;">
+        <p class="brush active" style="color: rgb(228, 130, 16); font-size: 19px; min-width: 1px;">
+            <a href="https://leetcode.com/problems/{{TitleSlug}}" style="text-decoration:none;color:rgb(228, 130, 16);">
+                {{ID}}. {{Title}}
+            </a>
+        </p>
+    </section>
+    <section style="-webkit-transform: rotate(-45deg); width: 2em; height: 2em; margin: auto; display: inline-block;">
+        <section
+                style="width: 6px; height: 6px; margin-left: -3px; background-color: rgb(228, 130, 16); border-radius: 100%;"></section>
+        <section
+                style="width: 100%; height: 100%; border-left: 1px solid rgb(228, 130, 16); border-top-color: rgb(228, 130, 16); border-right-color: rgb(228, 130, 16); border-bottom: 1px solid rgb(228, 130, 16); background-color: transparent !important;"></section>
+        <section
+                style="width: 6px; height: 6px; float: right; margin-top: -3px; margin-right: -5px; background-color: rgb(228, 130, 16); border-radius: 100%;"></section>
+    </section>
+    <section style="width: 100%; display: inline-block; vertical-align: top; margin-top: -0.8em;">
+        <section
+                style="border-top: 1px solid rgb(228, 130, 16); border-right-color: rgb(228, 130, 16); border-bottom-color: rgb(228, 130, 16); border-left-color: rgb(228, 130, 16); width: 100%;"></section>
+        <section
+                style="width: 6px; height: 6px; margin-top: -3px; background-color: rgb(228, 130, 16); border-radius: 100%;"></section>
+        <section
+                style="width: 6px; height: 6px; margin-top: -6px; float: right; background-color: rgb(228, 130, 16); border-radius: 100%;"></section>
+    </section>
+</section>
+
+<!--Tags-->
+{{#Tags}}
+<div id="tags"></div>
+<a class="btn tag-btn" href="#" onclick="expandTags()" id="hidden-tags">Tags</a>
+{{/Tags}}
+<!--Problem Description-->
+<section class="RankEditor">
+    <section style="border: 0px none;">
+        <section style="padding: 10px;">
+            <section style="width: 100%;text-align: center;">
+                <p class="title active" style="font-size: 18px; color: rgb(228, 130, 16); min-width: 1px;">
+                    {{Difficulty}} Problem
+                </p>
+                <section style="width: 180px; margin-right: auto; margin-left: auto;">
+                    <img src="http://img.xdnphb.com/ueditor/edit/upload/image/20171214/1513222917052065016.png"
+                         style="display: block;width: 100%; vertical-align:top;"/>
+                </section>
+            </section>
+        </section>
+    </section>
+</section>
+{{Description}}
+
+<hr id=answer>

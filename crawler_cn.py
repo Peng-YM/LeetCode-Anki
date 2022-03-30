@@ -9,7 +9,7 @@ from requests.cookies import RequestsCookieJar
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 
-from database_cn import Problem, ProblemTag, Tag, Submission, create_tables, Solution
+from database_cn import Problem, ProblemTag, Tag, Submission, create_tables
 from utils import destructure, random_wait, do, get
 
 COOKIE_PATH = "./cookies_cn.dat"
@@ -82,7 +82,7 @@ class LeetCodeCrawler:
                     # fetch problem
                     do(self.questionData, args=[slug, True])
                     # fetch solution
-                    do(self.fetch_questionSolutionArticles, args=[slug])
+                    # do(self.fetch_questionSolutionArticles, args=[slug])
 
 
                 # always try to update submission
@@ -235,7 +235,7 @@ class LeetCodeCrawler:
             questionTitleSlug = solution['question']["questionTitleSlug"]
             Solution.replace(
                 problem=Problem.get(Problem.slug==questionTitleSlug),
-                url=f"https://leetcode.com/articles/{questionTitleSlug}/",
+                url=f"https://leetcode-cn.com//articles/{questionTitleSlug}/",
                 content=solution['content']
             ).execute()
 
