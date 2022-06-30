@@ -184,7 +184,8 @@ class LeetCodeCrawler:
 
         # parse data
         solution = get(body, "data.question")
-        if solution['solution']['paidOnly'] is False:
+        solutionExist = solution['solution'] is not None and solution['solution']['paidOnly'] is False
+        if solutionExist:
             Solution.replace(
                 problem=solution['questionId'],
                 url=f"https://leetcode.com/articles/{slug}/",
