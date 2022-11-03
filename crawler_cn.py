@@ -21,10 +21,10 @@ class LeetCodeCrawler:
         self.session = requests.Session()
         self.session.headers.update(
             {
-                'Host': 'leetcode-cn.com',
+                'Host': 'leetcode.cn',
                 'Cache-Control': 'max-age=0',
                 'Upgrade-Insecure-Requests': '1',
-                'Referer': 'https://leetcode-cn.com/accounts/login/',
+                'Referer': 'https://leetcode.cn/accounts/login/',
                 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.98 Safari/537.36',
                 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
                 'Accept-Language': 'zh-CN,zh;q=0.8,en;q=0.6',
@@ -42,7 +42,7 @@ class LeetCodeCrawler:
             browser = webdriver.Chrome(executable_path="./vendor/chromedriver")
             try:
                 # browser login
-                login_url = "https://leetcode-cn.com/accounts/login"
+                login_url = "https://leetcode.cn/accounts/login"
                 browser.get(login_url)
 
                 WebDriverWait(browser, 24 * 60 * 3600).until(
@@ -69,7 +69,7 @@ class LeetCodeCrawler:
         self.session.cookies.update(cookies)
 
     def fetch_accepted_problems(self):
-        response = self.session.get("https://leetcode-cn.com/api/problems/all/")
+        response = self.session.get("https://leetcode.cn/api/problems/all/")
         all_problems = json.loads(response.content.decode('utf-8'))
         # filter AC problems
         counter = 0
@@ -91,7 +91,7 @@ class LeetCodeCrawler:
         print(f"🤖 Updated {counter} problems")
 
     def questionData(self, slug, accepted=False):
-        print(f"🤖 Fetching problem: https://leetcode-cn.com/problems/{slug}/...")
+        print(f"🤖 Fetching problem: https://leetcode.cn/problems/{slug}/...")
         query_params = {
             "operationName":"questionData",
             "variables":{
@@ -101,7 +101,7 @@ class LeetCodeCrawler:
         }
 
         resp = self.session.post(
-            "https://leetcode-cn.com/graphql",
+            "https://leetcode.cn/graphql",
             data=json.dumps(query_params).encode('utf8'),
             headers={
                 "content-type": "application/json",
@@ -140,7 +140,7 @@ class LeetCodeCrawler:
                            "query":"query lastSubmission($questionSlug: String!, $lang: String!) {\n  lastSubmission(questionSlug: $questionSlug, lang: $lang) {\n    id\n    statusDisplay\n    lang\n    runtime\n    timestamp\n    url\n    isPending\n    memory\n    submissionComment {\n      comment\n      flagType\n      __typename\n    }\n    __typename\n  }\n}\n"
                        }
 
-        resp = self.session.post("https://leetcode-cn.com/graphql",
+        resp = self.session.post("https://leetcode.cn/graphql",
                                  data=json.dumps(query_params).encode('utf8'),
                                  headers={
                                      "content-type": "application/json",
@@ -160,7 +160,7 @@ class LeetCodeCrawler:
                            "query":"query mySubmissionDetail($id: ID!) {\n  submissionDetail(submissionId: $id) {\n    id\n    code\n    runtime\n    memory\n    rawMemory\n    statusDisplay\n    timestamp\n    lang\n    passedTestCaseCnt\n    totalTestCaseCnt\n    sourceUrl\n    question {\n      titleSlug\n      title\n      translatedTitle\n      questionId\n      __typename\n    }\n    ... on GeneralSubmissionNode {\n      outputDetail {\n        codeOutput\n        expectedOutput\n        input\n        compileError\n        runtimeError\n        lastTestcase\n        __typename\n      }\n      __typename\n    }\n    submissionComment {\n      comment\n      flagType\n      __typename\n    }\n    __typename\n  }\n}\n"
                        }
 
-        resp = self.session.post("https://leetcode-cn.com/graphql",
+        resp = self.session.post("https://leetcode.cn/graphql",
                                  data=json.dumps(query_params).encode('utf8'),
                                  headers={
                                      "content-type": "application/json",
@@ -171,7 +171,7 @@ class LeetCodeCrawler:
         solution = get(body, "data.submissionDetail")
         # Solution.replace(
         #         problem=solution['id'],
-        #         url=f"https://leetcode-cn.com/articles/{slug}/",
+        #         url=f"https://leetcode.cn/articles/{slug}/",
         #         content=solution['code']
         #     ).execute()
 
@@ -196,7 +196,7 @@ class LeetCodeCrawler:
             },
             "query":"query questionSolutionArticles($questionSlug: String!, $skip: Int, $first: Int, $orderBy: SolutionArticleOrderBy, $userInput: String, $tagSlugs: [String!]) {\n  questionSolutionArticles(questionSlug: $questionSlug, skip: $skip, first: $first, orderBy: $orderBy, userInput: $userInput, tagSlugs: $tagSlugs) {\n    totalNum\n    edges {\n      node {\n        ...solutionArticle\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment solutionArticle on SolutionArticleNode {\n  rewardEnabled\n  canEditReward\n  uuid\n  title\n  slug\n  sunk\n  chargeType\n  status\n  identifier\n  canEdit\n  canSee\n  reactionType\n  reactionsV2 {\n    count\n    reactionType\n    __typename\n  }\n  tags {\n    name\n    nameTranslated\n    slug\n    tagType\n    __typename\n  }\n  createdAt\n  thumbnail\n  author {\n    username\n    profile {\n      userAvatar\n      userSlug\n      realName\n      __typename\n    }\n    __typename\n  }\n  summary\n  topic {\n    id\n    commentCount\n    viewCount\n    __typename\n  }\n  byLeetcode\n  isMyFavorite\n  isMostPopular\n  isEditorsPick\n  hitCount\n  videosInfo {\n    videoId\n    coverUrl\n    duration\n    __typename\n  }\n  __typename\n}\n"
         }
-        resp = self.session.post("https://leetcode-cn.com/graphql",
+        resp = self.session.post("https://leetcode.cn/graphql",
                                  data=json.dumps(query_params).encode('utf8'),
                                  headers={
                                      "content-type": "application/json",
@@ -222,7 +222,7 @@ class LeetCodeCrawler:
             "query":"query solutionDetailArticle($slug: String!, $orderBy: SolutionArticleOrderBy!) {\n  solutionArticle(slug: $slug, orderBy: $orderBy) {\n    ...solutionArticle\n    content\n    question {\n      questionTitleSlug\n      __typename\n    }\n    position\n    next {\n      slug\n      title\n      __typename\n    }\n    prev {\n      slug\n      title\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment solutionArticle on SolutionArticleNode {\n  rewardEnabled\n  canEditReward\n  uuid\n  title\n  slug\n  sunk\n  chargeType\n  status\n  identifier\n  canEdit\n  canSee\n  reactionType\n  reactionsV2 {\n    count\n    reactionType\n    __typename\n  }\n  tags {\n    name\n    nameTranslated\n    slug\n    tagType\n    __typename\n  }\n  createdAt\n  thumbnail\n  author {\n    username\n    profile {\n      userAvatar\n      userSlug\n      realName\n      __typename\n    }\n    __typename\n  }\n  summary\n  topic {\n    id\n    commentCount\n    viewCount\n    __typename\n  }\n  byLeetcode\n  isMyFavorite\n  isMostPopular\n  isEditorsPick\n  hitCount\n  videosInfo {\n    videoId\n    coverUrl\n    duration\n    __typename\n  }\n  __typename\n}\n"
         }
 
-        resp = self.session.post("https://leetcode-cn.com/graphql",
+        resp = self.session.post("https://leetcode.cn/graphql",
                                  data=json.dumps(query_params).encode('utf8'),
                                  headers={
                                      "content-type": "application/json",
@@ -263,7 +263,7 @@ class LeetCodeCrawler:
                                 }'''
         }
 
-        resp = self.session.post("https://leetcode-cn.com/graphql",
+        resp = self.session.post("https://leetcode.cn/graphql",
                                  data=json.dumps(query_params).encode('utf8'),
                                  headers={
                                      "content-type": "application/json",
@@ -279,7 +279,7 @@ class LeetCodeCrawler:
 
                 if sub['statusDisplay'] == 'Accepted':
                     url = sub['url']
-                    html = self.session.get(f'https://leetcode-cn.com{url}').text
+                    html = self.session.get(f'https://leetcode.cn{url}').text
 
                     pattern = re.compile(
                         r'submissionCode: \'(?P<code>.*)\',\n  editCodeUrl', re.S
