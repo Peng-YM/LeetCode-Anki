@@ -8,6 +8,8 @@ import requests
 from requests.cookies import RequestsCookieJar
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
 
 from database import Problem, ProblemTag, Tag, Submission, create_tables, Solution
 from utils import destructure, random_wait, do, get
@@ -19,6 +21,7 @@ class LeetCodeCrawler:
     def __init__(self):
         # create an http session
         self.session = requests.Session()
+        self.browser = webdriver.Chrome(executable_path="./vendor/chromedriver")
         self.session.headers.update(
             {
                 'Host': 'leetcode.com',
@@ -39,16 +42,15 @@ class LeetCodeCrawler:
                 browser_cookies = pickle.load(f)
         else:
             print("😎 Starting browser login..., please fill the login form")
-            browser = webdriver.Chrome(executable_path="./vendor/chromedriver")
             try:
                 # browser login
                 login_url = "https://leetcode.com/accounts/login"
-                browser.get(login_url)
+                self.browser.get(login_url)
 
-                WebDriverWait(browser, 24 * 60 * 3600).until(
+                WebDriverWait(self.browser, 24 * 60 * 3600).until(
                     lambda driver: driver.current_url.find("login") < 0
                 )
-                browser_cookies = browser.get_cookies()
+                browser_cookies = self.browser.get_cookies()
                 with open(COOKIE_PATH, 'wb') as f:
                     pickle.dump(browser_cookies, f)
                 print("🎉 Login successfully")
@@ -216,7 +218,6 @@ class LeetCodeCrawler:
                                     }
                                 }'''
         }
-
         resp = self.session.post("https://leetcode.com/graphql",
                                  data=json.dumps(query_params).encode('utf8'),
                                  headers={
@@ -233,12 +234,14 @@ class LeetCodeCrawler:
 
                 if sub['statusDisplay'] == 'Accepted':
                     url = sub['url']
-                    html = self.session.get(f'https://leetcode.com{url}').text
-
+                    self.browser.get(f'https://leetcode.com{url}')
+                    element = WebDriverWait(self.browser, 10).until(
+                        EC.presence_of_element_located((By.ID, "result_date"))  # 用实际等待元素的ID替换"someId"
+                    )
+                    html = self.browser.page_source
                     pattern = re.compile(
                         r'submissionCode: \'(?P<code>.*)\',\n  editCodeUrl', re.S
                     )
-
                     matched = pattern.search(html)
                     code = matched.groupdict().get('code') if matched else None
                     if code:
