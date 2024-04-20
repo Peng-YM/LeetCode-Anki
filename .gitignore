@@ -14,3 +14,4 @@ build/
 # Ignore Python virtual environments
 venv/
 cookies.dat
+data/
