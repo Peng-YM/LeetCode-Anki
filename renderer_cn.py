@@ -20,6 +20,25 @@ def markdown_to_html(content: str):
         string=content
     )
 
+    # Only matches the contents of the Markdown image format ![]() enclosed by angle brackets < and >, without affecting other contents
+    content = re.sub(
+        pattern=r'<(!\[.*?\]\(.*?\))>',
+        repl=r'\1',
+        string=content
+    )
+
+    #Add line breaks before and after code blocks
+    content = re.sub(
+        pattern=r'(```\w*)',
+        repl=r'\n\1',
+        string=content
+    )
+    content = re.sub(
+        pattern=r'(\w*```)',
+        repl=r'\1\n',
+        string=content
+    )
+
     # also need to load the mathjax and toc extensions
     return markdown(content, extensions=['mdx_math', 'toc', 'fenced_code', 'tables'])
 
