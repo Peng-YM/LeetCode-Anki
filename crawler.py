@@ -10,6 +10,7 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.service import Service
 
 from database import Problem, ProblemTag, Tag, Submission, create_tables, Solution
 from utils import destructure, random_wait, do, get
@@ -21,7 +22,8 @@ class LeetCodeCrawler:
     def __init__(self):
         # create an http session
         self.session = requests.Session()
-        self.browser = webdriver.Chrome(executable_path="./vendor/chromedriver")
+        service = Service(r"C:\Users\blau2\workspace\LeetCode-Anki\vendor\chromedriver.exe")
+        self.browser = webdriver.Chrome(service=service)
         self.session.headers.update(
             {
                 'Host': 'leetcode.com',
@@ -73,21 +75,27 @@ class LeetCodeCrawler:
     def fetch_accepted_problems(self):
         response = self.session.get("https://leetcode.com/api/problems/all/")
         all_problems = json.loads(response.content.decode('utf-8'))
-        # filter AC problems
+        
+        # Filter the problems with status 'ac'
+        accepted_problems = [item for item in all_problems['stat_status_pairs'] if item['status'] == 'ac']
+        
+        # Print the total number of accepted problems
+        print(f"🤖 Total accepted problems to process: {len(accepted_problems)}")
+        
         counter = 0
-        for item in all_problems['stat_status_pairs']:
-            if item['status'] == 'ac':
-                id, slug = destructure(item['stat'], "question_id", "question__title_slug")
-                # only update problem if not exists
-                if Problem.get_or_none(Problem.id == id) is None:
-                    counter += 1
-                    # fetch problem
-                    do(self.fetch_problem, args=[slug, True])
-                    # fetch solution
-                    do(self.fetch_solution, args=[slug])
+        for item in accepted_problems:
+            id, slug = destructure(item['stat'], "question_id", "question__title_slug")
+            # Only update problem if it doesn't exist
+            if Problem.get_or_none(Problem.id == id) is None:
+                counter += 1
+                # Fetch problem
+                do(self.fetch_problem, args=[slug, True])
+                # Fetch solution
+                do(self.fetch_solution, args=[slug])
 
-                # always try to update submission
-                do(self.fetch_submission, args=[slug])
+            # Always try to update submission
+            do(self.fetch_submission, args=[slug])
+        
         print(f"🤖 Updated {counter} problems")
 
     def fetch_problem(self, slug, accepted=False):
